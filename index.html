@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hospitality robotics training data | Sociable Robotics</title>
+  <meta name="description" content="Sociable Robotics provides hospitality-specific multimodal training data capturing social dynamics for embodied AI and robotics foundation models.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sociable Robotics">
+  <meta property="og:description" content="Hospitality-specific multimodal training data for embodied AI.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sociable Robotics">
+  <meta name="twitter:description" content="Hospitality-specific multimodal training data for embodied AI.">
+  <link rel="icon" href="sociable-logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Sociable Robotics",
+    "description": "Hospitality-specific multimodal training data capturing social interaction dynamics for embodied AI."
+  }
+  </script>
+</head>
+<body>
+  <div class="bg-orb bg-orb-a" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-b" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="Sociable Robotics home">
+        <img src="sociable-logo.png" alt="Sociable Robotics logo" class="brand-logo">
+        <span>Sociable Robotics</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#modalities">Modalities</a>
+        <a href="#waitlist">Waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Training Data For Human-Facing Embodied AI</p>
+          <h1>Multimodal data with real social dynamics.</h1>
+          <p class="lead">Sociable Robotics captures human interactions in cafes and hotels, designed for robotics teams building VLA and world models.</p>
+          <p class="cta-row">
+            <a class="btn btn-primary" href="#waitlist" data-cta="hero-waitlist">Join waitlist</a>
+            <a class="btn btn-secondary" href="#modalities">View modalities</a>
+          </p>
+        </div>
+        <aside class="outcomes" aria-label="Buyer outcomes">
+          <h2>Buyer outcomes</h2>
+          <div class="outcome-grid">
+            <article class="outcome-card">
+              <p class="outcome-kicker">Deployment readiness</p>
+              <p class="outcome-text">Improve robot safety for hospitality rollouts.</p>
+            </article>
+            <article class="outcome-card">
+              <p class="outcome-kicker">Model quality</p>
+              <p class="outcome-text">Train on social signal-rich interactions.</p>
+            </article>
+            <article class="outcome-card">
+              <p class="outcome-kicker">Program fit</p>
+              <p class="outcome-text">Align collection scope with your model roadmap.</p>
+            </article>
+          </div>
+        </aside>
+      </div>
+      <ul class="signal-strip" aria-label="Current signal coverage">
+        <li>Ego RGB-D</li>
+        <li>Exo RGB</li>
+        <li>Audio</li>
+        <li>Tactile (coming soon)</li>
+      </ul>
+    </section>
+
+    <section id="problem" class="section section-muted">
+      <div class="container">
+        <p class="section-tag">Challenge</p>
+        <h2>Why generic robotics data breaks in hospitality</h2>
+        <p>Hospitality environments are dense with shifting intent, social cues, and dynamic human movement. Generic datasets underrepresent these behaviors, causing brittle model performance in guest-facing settings.</p>
+        <div class="grid-3">
+          <article>
+            <h3>Social context is missing</h3>
+            <p>Intent-rich interactions such as greetings, handoffs, and turn-taking are usually weakly represented in broad datasets.</p>
+          </article>
+          <article>
+            <h3>Environments are dynamic</h3>
+            <p>Cafes and hotels add crowding, occlusions, and noise patterns that differ from lab-controlled data.</p>
+          </article>
+          <article>
+            <h3>Task + interaction coupling</h3>
+            <p>Service tasks are embedded in social exchanges; models need both dimensions jointly captured.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="solution" class="section">
+      <div class="container">
+        <p class="section-tag">Approach</p>
+        <h2>Tailored data collection for robotics foundation model teams</h2>
+        <p>We design and execute capture programs around your target behaviors, venues, and model constraints, then deliver structured multimodal datasets suitable for VLA/world model training pipelines.</p>
+        <div class="grid-2">
+          <article>
+            <h3>Capture design</h3>
+            <p>Scenario planning, instrumentation strategy, and protocol definition aligned with deployment use cases.</p>
+          </article>
+          <article>
+            <h3>Data delivery</h3>
+            <p>Timestamp-synchronized streams with schema documentation and annotations.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="modalities" class="section section-muted">
+      <div class="container">
+        <p class="section-tag">Modalities</p>
+        <h2>Modalities</h2>
+        <div class="grid-2">
+          <article>
+            <h3>Available now</h3>
+            <ul>
+              <li>Egocentric RGB + depth</li>
+              <li>Exocentric RGB</li>
+              <li>Audio</li>
+            </ul>
+          </article>
+          <article>
+            <h3>Coming soon</h3>
+            <ul>
+              <li>Tactile fingers</li>
+              <li>UMI-style gripper states</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <p class="section-tag">Differentiation</p>
+        <h2>Differentiation</h2>
+        <div class="grid-3">
+          <article>
+            <h3>Social dynamics focus</h3>
+            <p>We prioritize natural human interaction patterns, not just task trajectories.</p>
+          </article>
+          <article>
+            <h3>Real hospitality venues</h3>
+            <p>Current collections run in cafes and hotels, where service interaction is natural and varied.</p>
+          </article>
+          <article>
+            <h3>Custom protocol + annotation design</h3>
+            <p>Each program is scoped to your model objectives, taxonomy, and failure modes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-muted">
+      <div class="container">
+        <p class="section-tag">Use cases</p>
+        <h2>Use cases</h2>
+        <div class="grid-3">
+          <article>
+            <h3>VLA policy training for handoff tasks</h3>
+            <p>Train action-conditioned policies to map language goals like \"deliver drink to table 4\" to robust grasp-transfer trajectories with human-aware timing.</p>
+          </article>
+          <article>
+            <h3>World model pretraining in crowded scenes</h3>
+            <p>Learn predictive latent dynamics for occlusions, queue formation, and pedestrian flow so planners can anticipate movement in narrow hospitality layouts.</p>
+          </article>
+          <article>
+            <h3>Multimodal grounding of social intent</h3>
+            <p>Align audio, gaze/proxemics, and scene context to improve intent inference and action selection during greetings, clarifications, and service turn-taking.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <p class="section-tag">Trust</p>
+        <h2>Trust and data quality</h2>
+        <div class="grid-2">
+          <article>
+            <h3>Quality workflow</h3>
+            <p>Calibration checks, synchronization validation, and documented collection protocols are applied for each run.</p>
+          </article>
+          <article>
+            <h3>Consent and compliance</h3>
+            <p>Collection operations are structured around venue permissions and privacy practices appropriate for commercial data services.</p>
+          </article>
+        </div>
+        <p class="status"><span class="status-dot" aria-hidden="true"></span>Pilot status: active hospitality data collection in cafes and hotels.</p>
+      </div>
+    </section>
+
+    <section id="waitlist" class="section section-accent">
+      <div class="container">
+        <p class="section-tag">Get updates</p>
+        <h2>Join the waitlist</h2>
+        <p>Get launch updates and early access announcements for hospitality-focused multimodal datasets.</p>
+
+        <form class="waitlist-form" action="https://buttondown.com/api/emails/embed-subscribe/sociable_robotics" method="post" target="buttondown-embed">
+          <div class="waitlist-row">
+            <label class="sr-only" for="bd-email">Work email *</label>
+            <input id="bd-email" name="email" type="email" required autocomplete="email" placeholder="Work email">
+            <button type="submit" class="btn btn-primary">Join</button>
+          </div>
+          <p class="waitlist-feedback" id="waitlist-feedback" role="status" aria-live="polite"></p>
+          <p class="small">By submitting, you agree to our <a href="privacy.html">Privacy Policy</a>.</p>
+        </form>
+        <iframe title="Buttondown embed target" name="buttondown-embed" class="embed-frame"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>&copy; <span id="year"></span> Sociable Robotics. All rights reserved.</p>
+      <p><a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    var form = document.querySelector('.waitlist-form');
+    if (form) {
+      var feedback = document.getElementById('waitlist-feedback');
+      form.addEventListener('submit', function(){
+        if (feedback) {
+          feedback.textContent = 'Submission received. Check your email to confirm';
+          feedback.classList.add('is-visible');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
