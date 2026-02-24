@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Viewer | Sociable Robotics</title>
+  <meta name="description" content="View and explore pick and place training data from Sociable Robotics.">
+  <meta name="robots" content="index,follow">
+  <link rel="icon" href="sociable-logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .data-viewer-container {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 1.5rem;
+      min-height: calc(100vh - 200px);
+    }
+
+    .sidebar {
+      background: var(--surface);
+      border: 1px solid #d8c7fa;
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: var(--shadow-soft);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+
+    .sidebar-tabs {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sidebar-tab {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font: 500 0.95rem/1 "Outfit", "Segoe UI", sans-serif;
+      color: var(--muted);
+      text-align: left;
+      transition: all 150ms ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .sidebar-tab:hover {
+      background: rgba(126, 77, 255, 0.08);
+      border-color: #d9c9fa;
+    }
+
+    .sidebar-tab.active {
+      background: linear-gradient(130deg, var(--accent) 0%, var(--accent-dark) 100%);
+      color: #fff;
+      border-color: var(--accent-dark);
+      box-shadow: 0 4px 12px rgba(106, 62, 213, 0.2);
+    }
+
+    .main-content {
+      background: var(--surface);
+      border: 1px solid #d8c7fa;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .scenario-selector {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .scenario-selector h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    .scenario-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .scenario-tab {
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(126, 77, 255, 0.1);
+      border: 1px solid #d1bcfb;
+      color: #5937af;
+      font: 500 0.88rem/1 "Outfit", "Segoe UI", sans-serif;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+
+    .scenario-tab:hover {
+      background: rgba(126, 77, 255, 0.15);
+      border-color: #b89ef5;
+    }
+
+    .scenario-tab.active {
+      background: linear-gradient(130deg, var(--accent) 0%, var(--accent-dark) 100%);
+      color: #fff;
+      border-color: var(--accent-dark);
+      box-shadow: 0 4px 12px rgba(106, 62, 213, 0.2);
+    }
+
+    .video-container {
+      margin-top: 1.5rem;
+    }
+
+    .scenario-video {
+      display: none;
+    }
+
+    .scenario-video.active {
+      display: block;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #000;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .video-description {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--surface-alt);
+      border: 1px solid #d9c9fa;
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .content-panel {
+      display: none;
+    }
+
+    .content-panel.active {
+      display: block;
+    }
+
+    @media (max-width: 860px) {
+      .data-viewer-container {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .sidebar-tabs {
+        flex-direction: row;
+        overflow-x: auto;
+      }
+
+      .sidebar-tab {
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb bg-orb-a" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-b" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="Sociable Robotics home">
+        <img src="sociable-logo.png" alt="Sociable Robotics logo" class="brand-logo">
+        <span>Sociable Robotics</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#modalities">Modalities</a>
+        <a href="index.html#waitlist">Waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <p class="section-tag">Data Viewer</p>
+        <h2>Training Data Explorer</h2>
+        <p>Browse and explore our pick and place training data scenarios.</p>
+
+        <div class="data-viewer-container">
+          <aside class="sidebar">
+            <ul class="sidebar-tabs" role="tablist">
+              <li>
+                <button class="sidebar-tab active" role="tab" aria-selected="true" data-tab="pick-and-place">
+                  Pick and Place
+                </button>
+              </li>
+            </ul>
+          </aside>
+
+          <div class="main-content">
+            <div class="content-panel active" id="pick-and-place-panel" role="tabpanel">
+              <div class="scenario-selector">
+                <h3>Select Scenario</h3>
+                <div class="scenario-tabs" role="tablist">
+                  <button class="scenario-tab active" role="tab" aria-selected="true" data-scenario="scenario-1">
+                    Scenario 1
+                  </button>
+                  <button class="scenario-tab" role="tab" aria-selected="false" data-scenario="scenario-2">
+                    Scenario 2
+                  </button>
+                  <button class="scenario-tab" role="tab" aria-selected="false" data-scenario="scenario-3">
+                    Scenario 3
+                  </button>
+                </div>
+              </div>
+
+              <div class="video-container">
+                <div class="scenario-video active" data-scenario="scenario-1">
+                  <div class="video-wrapper">
+                    <video id="scenario1-video" controls preload="auto" playsinline webkit-playsinline>
+                      <source src="assets/00045.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                    </video>
+                    <div id="video-error" style="display: none; padding: 2rem; text-align: center; color: #d32f2f; background: #ffebee; border-radius: var(--radius-sm); margin-top: 1rem;">
+                      <p><strong>Video Error:</strong> <span id="error-message"></span></p>
+                      <p style="font-size: 0.9rem; margin-top: 0.5rem;">Please check the browser console (F12) for more details.</p>
+                    </div>
+                  </div>
+                  <div class="video-description">
+                    <strong>Egocentric view:</strong> A human hand pulls the highlighted white bottle closer on the table.
+                  </div>
+                </div>
+                <div class="scenario-video" data-scenario="scenario-2">
+                  <div class="video-wrapper">
+                    <p style="padding: 2rem; text-align: center; color: var(--muted);">No video available for this scenario yet.</p>
+                  </div>
+                </div>
+                <div class="scenario-video" data-scenario="scenario-3">
+                  <div class="video-wrapper">
+                    <p style="padding: 2rem; text-align: center; color: var(--muted);">No video available for this scenario yet.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>&copy; <span id="year"></span> Sociable Robotics. All rights reserved.</p>
+      <p><a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Video error handling
+    const video = document.getElementById('scenario1-video');
+    const errorDiv = document.getElementById('video-error');
+    const errorMessage = document.getElementById('error-message');
+    
+    if (video) {
+      video.addEventListener('error', function(e) {
+        console.error('Video error:', e);
+        const error = video.error;
+        if (error) {
+          let errorText = '';
+          switch(error.code) {
+            case 1:
+              errorText = 'Video loading aborted';
+              break;
+            case 2:
+              errorText = 'Network error while loading video';
+              break;
+            case 3:
+              errorText = 'Error decoding video';
+              break;
+            case 4:
+              errorText = 'Video format not supported or source not found';
+              break;
+            default:
+              errorText = 'Unknown error (code: ' + error.code + ')';
+          }
+          console.error('Error code:', error.code);
+          console.error('Error message:', error.message);
+          console.error('Error details:', errorText);
+          
+          if (errorDiv && errorMessage) {
+            errorMessage.textContent = errorText;
+            errorDiv.style.display = 'block';
+          }
+        }
+      });
+      
+      video.addEventListener('loadedmetadata', function() {
+        console.log('Video metadata loaded successfully');
+        console.log('Video duration:', video.duration);
+        console.log('Video dimensions:', video.videoWidth + 'x' + video.videoHeight);
+        if (errorDiv) {
+          errorDiv.style.display = 'none';
+        }
+      });
+      
+      video.addEventListener('loadeddata', function() {
+        console.log('Video data loaded');
+      });
+      
+      video.addEventListener('canplay', function() {
+        console.log('Video can start playing');
+      });
+      
+      video.addEventListener('stalled', function() {
+        console.warn('Video loading stalled');
+      });
+      
+      video.addEventListener('waiting', function() {
+        console.warn('Video waiting for data');
+      });
+      
+      // Diagnostic: Check if video file exists (console only)
+      const videoPath = 'assets/00045.mp4';
+      const fullVideoUrl = new URL(videoPath, window.location.href).href;
+      console.log('Current page URL:', window.location.href);
+      console.log('Attempting to load video from:', fullVideoUrl);
+      
+      fetch(videoPath, { method: 'HEAD' })
+        .then(response => {
+          if (response.ok) {
+            console.log('✓ Video file found at: ' + videoPath);
+            console.log('Content-Type:', response.headers.get('content-type'));
+            console.log('Content-Length:', response.headers.get('content-length'));
+            console.log('Full URL:', fullVideoUrl);
+          } else {
+            console.error('✗ Video file not found. Status:', response.status, response.statusText);
+            console.error('Attempted URL:', fullVideoUrl);
+            if (errorDiv) errorDiv.style.display = 'block';
+          }
+        })
+        .catch(error => {
+          console.error('✗ Error checking video file:', error);
+          console.error('Error details:', error.message);
+          if (errorDiv) errorDiv.style.display = 'block';
+        });
+      
+      // Try to load the video
+      video.load();
+    }
+
+    // Sidebar tab functionality
+    const sidebarTabs = document.querySelectorAll('.sidebar-tab');
+    sidebarTabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        sidebarTabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        
+        const tabName = this.getAttribute('data-tab');
+        document.querySelectorAll('.content-panel').forEach(panel => {
+          panel.classList.remove('active');
+        });
+        document.getElementById(tabName + '-panel')?.classList.add('active');
+      });
+    });
+
+    // Scenario tab functionality
+    const scenarioTabs = document.querySelectorAll('.scenario-tab');
+    scenarioTabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        scenarioTabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        this.classList.add('active');
+        this.setAttribute('aria-selected', 'true');
+        
+        // Show the corresponding video for the selected scenario
+        const scenario = this.getAttribute('data-scenario');
+        document.querySelectorAll('.scenario-video').forEach(video => {
+          video.classList.remove('active');
+        });
+        const selectedVideo = document.querySelector(`.scenario-video[data-scenario="${scenario}"]`);
+        if (selectedVideo) {
+          selectedVideo.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
