@@ -136,7 +136,8 @@
     }
 
     .video-wrapper video,
-    .video-wrapper iframe {
+    .video-wrapper iframe,
+    .video-wrapper img {
       width: 100%;
       height: auto;
       display: block;
@@ -236,13 +237,10 @@
               <div class="video-container">
                 <div class="scenario-video active" data-scenario="scenario-1">
                   <div class="video-wrapper">
-                    <iframe 
-                      src="https://player.vimeo.com/video/1167575024" 
-                      frameborder="0" 
-                      allow="autoplay; fullscreen; picture-in-picture" 
-                      allowfullscreen
-                      style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-sm);">
-                    </iframe>
+                    <img 
+                      src="assets/00045.gif" 
+                      alt="Egocentric view: a human hand pulls the highlighted white bottle closer on the table."
+                      style="width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-sm); object-fit: cover;">
                   </div>
                   <div class="video-description">
                     <strong>Egocentric view:</strong> A human hand pulls the highlighted white bottle closer on the table.
