@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generate Synthetic Data | Sociable Robotics</title>
+  <meta name="description" content="Generate synthetic training data for robotics applications.">
+  <meta name="robots" content="index,follow">
+  <link rel="icon" href="sociable-logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .prompt-container {
+      margin-top: 2rem;
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid #d8c7fa;
+      border-radius: var(--radius);
+    }
+
+    .prompt-form {
+      margin-bottom: 2rem;
+    }
+
+    .prompt-form label {
+      display: block;
+      margin-bottom: 0.75rem;
+      font: 500 1rem/1 "Outfit", "Segoe UI", sans-serif;
+      color: var(--text);
+    }
+
+    .prompt-form select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      padding-right: 2.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid #d1bcfb;
+      background: var(--surface);
+      color: var(--text);
+      font: 500 0.95rem/1 "Outfit", "Segoe UI", sans-serif;
+      transition: all 150ms ease;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237e4dff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 12px;
+    }
+
+    .prompt-form select:hover {
+      border-color: #b89ef5;
+      background-color: rgba(126, 77, 255, 0.02);
+    }
+
+    .prompt-form select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(126, 77, 255, 0.1);
+    }
+
+    .prompt-form select option {
+      padding: 0.5rem;
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .gif-preview-container {
+      margin-top: 2rem;
+      display: none;
+    }
+
+    .gif-preview-container.active {
+      display: block;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #000;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-wrapper img.loaded {
+      opacity: 1;
+    }
+
+    .loading-spinner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+
+    .loading-spinner.active {
+      display: flex;
+    }
+
+    .loading-spinner::before {
+      content: '';
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(126, 77, 255, 0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .gif-description {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--surface-alt);
+      border: 1px solid #d9c9fa;
+      border-radius: var(--radius-sm);
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb bg-orb-a" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-b" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="Sociable Robotics home">
+        <img src="sociable-logo.png" alt="Sociable Robotics logo" class="brand-logo">
+        <span>Sociable Robotics</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#solution">Solution</a>
+        <a href="index.html#modalities">Modalities</a>
+        <a href="index.html#waitlist">Waitlist</a>
+        <a href="data-viewer.html">Data</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <p class="section-tag">Synthetic Data Generation</p>
+        <h2>Generate Synthetic Data</h2>
+        <p>Create custom synthetic training data for your robotics applications.</p>
+        
+        <div class="prompt-container">
+          <form class="prompt-form">
+            <label for="video-prompt">Video Prompt</label>
+            <select id="video-prompt" name="video-prompt">
+              <option value="">Select a prompt...</option>
+              <option value="Egocentric view of moving left black bottle closer">Egocentric view of moving left black bottle closer</option>
+              <option value="Egocentric view of moving middle black bottle closer">Egocentric view of moving middle black bottle closer</option>
+              <option value="Egocentric view of moving right black bottle closer">Egocentric view of moving right black bottle closer</option>
+              <option value="Egocentric view of moving left red bottle closer">Egocentric view of moving left red bottle closer</option>
+              <option value="Egocentric view of moving middle red bottle closer">Egocentric view of moving middle red bottle closer</option>
+              <option value="Egocentric view of moving right red bottle closer">Egocentric view of moving right red bottle closer</option>
+              <option value="Egocentric view of moving left white bottle closer">Egocentric view of moving left white bottle closer</option>
+              <option value="Egocentric view of moving middle white bottle closer">Egocentric view of moving middle white bottle closer</option>
+              <option value="Egocentric view of moving right white bottle closer">Egocentric view of moving right white bottle closer</option>
+            </select>
+          </form>
+
+          <div class="gif-preview-container" id="gif-preview">
+            <div class="video-wrapper">
+              <div class="loading-spinner" id="loading-spinner"></div>
+              <img id="preview-gif" src="" alt="Preview GIF">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>&copy; <span id="year"></span> Sociable Robotics. All rights reserved.</p>
+      <p><a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a></p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Parse prompt and display corresponding GIF
+    function parsePromptAndShowGif(prompt) {
+      const previewContainer = document.getElementById('gif-preview');
+      const previewGif = document.getElementById('preview-gif');
+      const loadingSpinner = document.getElementById('loading-spinner');
+
+      // Pattern: "Egocentric view of moving {position} {color} bottle closer"
+      const pattern = /Egocentric view of moving (left|middle|right) (black|red|white) bottle closer/i;
+      const match = prompt.match(pattern);
+
+      if (match) {
+        const position = match[1].toLowerCase();
+        const color = match[2].toLowerCase();
+        const gifFilename = `${color}-${position}.gif`;
+        
+        // Hide GIF and show loading spinner
+        previewGif.classList.remove('loaded');
+        previewGif.src = '';
+        loadingSpinner.classList.add('active');
+        previewContainer.classList.add('active');
+        
+        // Wait 2 seconds before showing the GIF
+        setTimeout(() => {
+          previewGif.src = `assets/${gifFilename}`;
+          previewGif.alt = prompt;
+          
+          // Hide spinner and show GIF when loaded
+          previewGif.onload = function() {
+            loadingSpinner.classList.remove('active');
+            previewGif.classList.add('loaded');
+          };
+          
+          // Handle error case
+          previewGif.onerror = function() {
+            loadingSpinner.classList.remove('active');
+          };
+        }, 2000);
+      } else {
+        previewContainer.classList.remove('active');
+        loadingSpinner.classList.remove('active');
+      }
+    }
+
+    // Handle selection changes
+    const videoPromptSelect = document.getElementById('video-prompt');
+    videoPromptSelect.addEventListener('change', function() {
+      const prompt = this.value.trim();
+      if (prompt) {
+        parsePromptAndShowGif(prompt);
+      } else {
+        document.getElementById('gif-preview').classList.remove('active');
+        document.getElementById('loading-spinner').classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
