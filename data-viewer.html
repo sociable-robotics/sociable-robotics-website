@@ -268,6 +268,11 @@
                   Pick and Place
                 </button>
               </li>
+              <li>
+                <button class="sidebar-tab" role="tab" aria-selected="false" data-tab="hand-over">
+                  Hand Over
+                </button>
+              </li>
             </ul>
           </aside>
 
@@ -277,13 +282,7 @@
                 <h3>Select Scenario</h3>
                 <div class="scenario-tabs" role="tablist">
                   <button class="scenario-tab active" role="tab" aria-selected="true" data-scenario="scenario-1">
-                    Scenario 1
-                  </button>
-                  <button class="scenario-tab" role="tab" aria-selected="false" data-scenario="scenario-2">
-                    Scenario 2
-                  </button>
-                  <button class="scenario-tab" role="tab" aria-selected="false" data-scenario="scenario-3">
-                    Scenario 3
+                    Water Bottle
                   </button>
                 </div>
               </div>
@@ -300,14 +299,44 @@
                     <strong>Egocentric view:</strong> A human hand pulls the highlighted white bottle closer on the table.
                   </div>
                 </div>
-                <div class="scenario-video" data-scenario="scenario-2">
+              </div>
+            </div>
+
+            <div class="content-panel" id="hand-over-panel" role="tabpanel">
+              <div class="scenario-selector">
+                <h3>Select Scenario</h3>
+                <div class="scenario-tabs" role="tablist">
+                  <button class="scenario-tab active" role="tab" aria-selected="true" data-scenario="soda-cans">
+                    Soda Cans
+                  </button>
+                  <button class="scenario-tab" role="tab" aria-selected="false" data-scenario="glasses-case">
+                    Glasses Case
+                  </button>
+                </div>
+              </div>
+
+              <div class="video-container">
+                <div class="scenario-video active" data-scenario="soda-cans">
                   <div class="video-wrapper">
-                    <p style="padding: 2rem; text-align: center; color: var(--muted);">No video available for this scenario yet.</p>
+                    <img
+                      src="assets/right-green.gif"
+                      alt="Egocentric view: A human hand hands over a green soda can on the right to another human hand."
+                      style="width: 100%; height: auto; border-radius: var(--radius-sm); object-fit: contain;">
+                  </div>
+                  <div class="video-description">
+                    <strong>Egocentric view:</strong> A human hand hands over a green soda can on the right to another human hand.
                   </div>
                 </div>
-                <div class="scenario-video" data-scenario="scenario-3">
+
+                <div class="scenario-video" data-scenario="glasses-case">
                   <div class="video-wrapper">
-                    <p style="padding: 2rem; text-align: center; color: var(--muted);">No video available for this scenario yet.</p>
+                    <img
+                      src="assets/glasses-case.gif"
+                      alt="Egocentric view: A human hand hands over a marble-colored glasses case to another human hand."
+                      style="width: 100%; height: auto; border-radius: var(--radius-sm); object-fit: contain;">
+                  </div>
+                  <div class="video-description">
+                    <strong>Egocentric view:</strong> A human hand hands over a marble-colored glasses case to another human hand.
                   </div>
                 </div>
               </div>
@@ -332,8 +361,12 @@
     const sidebarTabs = document.querySelectorAll('.sidebar-tab');
     sidebarTabs.forEach(tab => {
       tab.addEventListener('click', function() {
-        sidebarTabs.forEach(t => t.classList.remove('active'));
+        sidebarTabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
         this.classList.add('active');
+        this.setAttribute('aria-selected', 'true');
         
         const tabName = this.getAttribute('data-tab');
         document.querySelectorAll('.content-panel').forEach(panel => {
@@ -347,7 +380,10 @@
     const scenarioTabs = document.querySelectorAll('.scenario-tab');
     scenarioTabs.forEach(tab => {
       tab.addEventListener('click', function() {
-        scenarioTabs.forEach(t => {
+        const panel = this.closest('.content-panel');
+        if (!panel) return;
+
+        panel.querySelectorAll('.scenario-tab').forEach(t => {
           t.classList.remove('active');
           t.setAttribute('aria-selected', 'false');
         });
@@ -356,10 +392,10 @@
         
         // Show the corresponding video for the selected scenario
         const scenario = this.getAttribute('data-scenario');
-        document.querySelectorAll('.scenario-video').forEach(video => {
+        panel.querySelectorAll('.scenario-video').forEach(video => {
           video.classList.remove('active');
         });
-        const selectedVideo = document.querySelector(`.scenario-video[data-scenario="${scenario}"]`);
+        const selectedVideo = panel.querySelector(`.scenario-video[data-scenario="${scenario}"]`);
         if (selectedVideo) {
           selectedVideo.classList.add('active');
         }
