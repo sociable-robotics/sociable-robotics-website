@@ -103,7 +103,7 @@ nav {
   gap: 0.4rem;
 }
 
-nav a {
+nav a:not(.btn) {
   padding: 0.45rem 0.7rem;
   border-radius: 999px;
   text-decoration: none;
@@ -112,8 +112,23 @@ nav a {
   transition: background 160ms ease;
 }
 
-nav a:hover {
+nav a:not(.btn):hover {
   background: rgba(126, 77, 255, 0.1);
+}
+
+/* Header CTA: avoid the heavy purple glow/shadow in the sticky nav */
+.site-header nav a.btn-primary {
+  box-shadow: none;
+}
+
+.site-header nav a.btn-primary:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.site-header nav a.btn-primary:focus-visible {
+  outline: 2px solid rgba(35, 23, 53, 0.25);
+  outline-offset: 2px;
 }
 
 .hero {
